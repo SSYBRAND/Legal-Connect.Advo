@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Case - Client Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .tracking-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        .input-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .input-field {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+        .track-button {
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .track-button:hover {
+            background-color: #0b7dda;
+        }
+        .result-container {
+            margin-top: 20px;
+            display: none; /* Initially hide the result container */
+            text-align: left;
+        }
+        .case-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        .case-item:last-child {
+            margin-bottom: 0;
+        }
+        .item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .percent-text {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tracking-container">
+        <h2>Track Your Case<br><font color=red>"High Court Cases"</font> 💥</h2>
+        <div class="input-container">
+            <input type="text" id="caseNumber" class="input-field" placeholder="Enter Case Number">
+            <button class="track-button" onclick="trackCase()">Track</button>
+        </div>
+        <div class="result-container" id="trackingResult">
+            <!-- Tracking information will appear here -->
+        </div>
+    </div>
+
+    <script>
+        // Simulated data for multiple cases
+        var cases = [
+            {
+                caseNumber: '7860571397',
+                clientName: 'Satyam Singh Yadav',
+                caseStatus: 'Pending',
+                courtDate: 'August 15, 2024',
+                details: [
+                    { title: 'Filing', progress: 'Completed' },
+                    { title: 'Hearing', progress: 'Scheduled on 16 August' }
+                ]
+            },
+            {
+                caseNumber: 'HC002',
+                clientName: 'Jane Smith',
+                caseStatus: 'In Progress',
+                courtDate: 'September 10, 2024',
+                details: [
+                    { title: 'Filing', progress: 'Completed' },
+                    { title: 'Hearing', progress: 'In Progress' }
+                ]
+            }
+            // Add more case data as needed
+        ];
+
+        function trackCase() {
+            var caseNumber = document.getElementById('caseNumber').value.trim();
+
+            // Find the case details based on the entered Case number
+            var caseInfo = cases.find(function(caseItem) {
+                return caseItem.caseNumber === caseNumber;
+            });
+
+            // If case with Case number is found
+            if (caseInfo) {
+                var resultContainer = document.getElementById('trackingResult');
+                resultContainer.style.display = 'block'; // Show the result container
+                resultContainer.innerHTML = `<h3>Case Details</h3>`;
+
+                // Display client information
+                resultContainer.innerHTML += `
+                    <div class="case-item">
+                        <div class="item-title">Client Name</div>
+                        <div class="percent-text">${caseInfo.clientName}</div>
+                    </div>
+                    <div class="case-item">
+                        <div class="item-title">Case Status</div>
+                        <div class="percent-text">${caseInfo.caseStatus}</div>
+                    </div>
+                    <div class="case-item">
+                        <div class="item-title">Court Date</div>
+                        <div class="percent-text">${caseInfo.courtDate}</div>
+                    </div>
+                `;
+
+                // Display case details
+                resultContainer.innerHTML += `<h3>Case Progress</h3>`;
+                caseInfo.details.forEach(function(item) {
+                    resultContainer.innerHTML += `
+                        <div class="case-item">
+                            <div class="item-title">${item.title}</div>
+                            <div class="percent-text">${item.progress}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                alert('Invalid Case number. Please enter the correct Case number.');
+            }
+        }
+    </script>
+</body>
+</html>
